@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D06F1422100E28300379515 /* Stub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D06F1412100E28300379515 /* Stub.swift */; };
+		4D06F1462101B87B00379515 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D06F1452101B87B00379515 /* Matcher.swift */; };
+		4D06F1482101C28000379515 /* Mockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D06F1472101C28000379515 /* Mockable.swift */; };
+		4D06F14A2101EE2900379515 /* DefaultReturnValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D06F1492101EE2900379515 /* DefaultReturnValue.swift */; };
 		4D14828520FE356000581FA9 /* MockKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D14827B20FE355F00581FA9 /* MockKit.framework */; };
 		4D14828A20FE356000581FA9 /* MockKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D14828920FE356000581FA9 /* MockKitTests.swift */; };
 		4D14828C20FE356000581FA9 /* MockKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D14827E20FE355F00581FA9 /* MockKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4D14829620FE356C00581FA9 /* CallHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D14829520FE356C00581FA9 /* CallHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +28,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D06F1412100E28300379515 /* Stub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stub.swift; sourceTree = "<group>"; };
+		4D06F1452101B87B00379515 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
+		4D06F1472101C28000379515 /* Mockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mockable.swift; sourceTree = "<group>"; };
+		4D06F1492101EE2900379515 /* DefaultReturnValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReturnValue.swift; sourceTree = "<group>"; };
 		4D14827B20FE355F00581FA9 /* MockKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MockKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D14827E20FE355F00581FA9 /* MockKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MockKit.h; sourceTree = "<group>"; };
 		4D14827F20FE356000581FA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D14828420FE356000581FA9 /* MockKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D14828920FE356000581FA9 /* MockKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockKitTests.swift; sourceTree = "<group>"; };
 		4D14828B20FE356000581FA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4D14829520FE356C00581FA9 /* CallHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +83,11 @@
 			children = (
 				4D14827E20FE355F00581FA9 /* MockKit.h */,
 				4D14827F20FE356000581FA9 /* Info.plist */,
+				4D14829520FE356C00581FA9 /* CallHandler.swift */,
+				4D06F1412100E28300379515 /* Stub.swift */,
+				4D06F1452101B87B00379515 /* Matcher.swift */,
+				4D06F1472101C28000379515 /* Mockable.swift */,
+				4D06F1492101EE2900379515 /* DefaultReturnValue.swift */,
 			);
 			path = MockKit;
 			sourceTree = "<group>";
@@ -148,6 +163,7 @@
 				TargetAttributes = {
 					4D14827A20FE355F00581FA9 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 					4D14828320FE356000581FA9 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -194,6 +210,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D14829620FE356C00581FA9 /* CallHandler.swift in Sources */,
+				4D06F1482101C28000379515 /* Mockable.swift in Sources */,
+				4D06F14A2101EE2900379515 /* DefaultReturnValue.swift in Sources */,
+				4D06F1422100E28300379515 /* Stub.swift in Sources */,
+				4D06F1462101B87B00379515 /* Matcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +360,7 @@
 		4D14829020FE356000581FA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -356,6 +378,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.arasthel.MockKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,6 +387,7 @@
 		4D14829120FE356000581FA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -389,6 +413,7 @@
 		4D14829320FE356000581FA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55CX6N5J5U;
 				INFOPLIST_FILE = MockKitTests/Info.plist;
@@ -407,6 +432,7 @@
 		4D14829420FE356000581FA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 55CX6N5J5U;
 				INFOPLIST_FILE = MockKitTests/Info.plist;
