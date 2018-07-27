@@ -11,17 +11,16 @@ import Foundation
 public protocol Mock {
     
     associatedtype MockMethodId: RawRepresentable
-    associatedtype When
+    associatedtype CallHandler
     
     init()
-    func when() -> When
-    var callHandler: CallHandler { get set }
+    func when() -> CallHandler
     
 }
 
 extension Mock {
     
-    public func when<ReturnType>(_ closure: ((When) -> MethodStub<ReturnType>)) -> MethodStub<ReturnType> {
+    public func when<ReturnType>(_ closure: ((CallHandler) -> MethodStub<ReturnType>)) -> MethodStub<ReturnType> {
         let when = self.when()
         let methodStub = closure(when)
         return methodStub
@@ -56,20 +55,19 @@ public class MethodStub<ReturnType>: MethodStubProtocol, Hashable {
     
     public let identifier: String
     public let argMatchers: [Matcher]
-    let callHandler: CallHandler
+    public let when: CallHandler
     
     public var callCount: Int = 0
     var returnClosure: (() -> ReturnType)?
     
-    public init(identifier: String, argMatchers: [Matcher], callHandler: CallHandler) {
+    public init(identifier: String, argMatchers: [Matcher], when: CallHandler) {
         self.identifier = identifier
         self.argMatchers = argMatchers
-        self.callHandler = callHandler
+        self.when = when
     }
     
     public func thenReturn(_ returnValue: @escaping @autoclosure () -> ReturnType) {
         self.returnClosure = returnValue
-        callHandler.registerMethodStub(self)
     }
     
     public func matches(args: [Any?]) -> Bool {
@@ -103,28 +101,25 @@ public protocol TestProtocol: Mockable {
 }
 
 public class TestMock: TestProtocol, Mock {
-    
-    public var callHandler = CallHandler()
-    
+        
     public typealias MockMethodId = MethodId
     
     public enum MethodId: Int {
-        case asda
+        case asda_value
     }
     
     public required init() {}
     
-    private lazy var whenInstance = { When(callHandler: callHandler) }()
+    private let callHandler = CallHandler()
     
     public func asda(value: Int) -> Int {
-        return callHandler.acceptCall(of: TestMock.self,
-                                      method: .asda,
-                                      args: [value],
-                                      defaultReturnValue: 1)
+        return callHandler.acceptCall(method: TestMock.identifier(for: .asda_value),
+                                       args: [value],
+                                       defaultReturnValue: 1)
     }
     
     public func when() -> WhenTestMock {
-        return whenInstance
+        return callHandler
     }
     
 }
@@ -132,23 +127,58 @@ public class TestMock: TestProtocol, Mock {
 extension TestMock {
     
     public typealias MockedType = TestMock
-    public typealias When = WhenTestMock
+    public typealias CallHandler = WhenTestMock
     
 }
 
-public class WhenTestMock {
+public class CallHandler {
     
-    let callHandler: CallHandler
+    private var stubs = [String: [MethodStubProtocol]]()
     
-    private var stubs = [TestMock.MethodId: [MethodStubProtocol]]()
-    
-    public init(callHandler: CallHandler) {
-        self.callHandler = callHandler
+    @discardableResult
+    public func registerStub<ReturnType>(identifier: String, argMatchers: [Matcher], returnType: ReturnType.Type) -> MethodStub<ReturnType> {
+        var methodStubs = stubs[identifier] ?? []
+        let stub = MethodStub<ReturnType>(identifier: identifier, argMatchers: argMatchers, when: self)
+        methodStubs.append(stub)
+        stubs[identifier] = methodStubs
+        return stub
     }
+    
+    public func findStub(identifier: String, forArgs args: [Any?]) -> MethodStubProtocol? {
+        let methodStubs = stubs[identifier]
+        return methodStubs?.first(where: { $0.matches(args: args )})
+    }
+    
+    public func acceptCall<ReturnType>(method: String, args: [Any?], defaultReturnValue: ReturnType) -> ReturnType {
+        let matchingStub = findStub(identifier: method, forArgs: args)
+        return (matchingStub?.call() as? ReturnType) ?? defaultReturnValue
+    }
+    
+}
+
+
+public class WhenTestMock: CallHandler {
     
     public func asda(value: Matcher) -> MethodStub<Int> {
-        let identifier = TestMock.identifier(for: .asda)
-        return MethodStub<Int>(identifier: identifier, argMatchers: [value], callHandler: callHandler)
+        let identifier = TestMock.identifier(for: .asda_value)
+        let stub = findStub(identifier: identifier, forArgs: [value]) as? MethodStub<Int>
+        return stub ?? registerStub(identifier: identifier, argMatchers: [value], returnType: Int.self)
     }
+    
+}
+
+public class Verify<MockType: Mock> {
+    
+    let mock: MockType
+    let condition: VerifyCondition
+    
+    init(mock: MockType, condition: VerifyCondition) {
+        self.mock = mock
+        self.condition = condition
+    }
+    
+}
+
+struct VerifyCondition {
     
 }

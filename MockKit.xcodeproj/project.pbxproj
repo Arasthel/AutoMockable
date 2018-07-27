@@ -14,7 +14,6 @@
 		4D14828520FE356000581FA9 /* MockKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D14827B20FE355F00581FA9 /* MockKit.framework */; };
 		4D14828A20FE356000581FA9 /* MockKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D14828920FE356000581FA9 /* MockKitTests.swift */; };
 		4D14828C20FE356000581FA9 /* MockKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D14827E20FE355F00581FA9 /* MockKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4D14829620FE356C00581FA9 /* CallHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D14829520FE356C00581FA9 /* CallHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +37,6 @@
 		4D14828420FE356000581FA9 /* MockKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D14828920FE356000581FA9 /* MockKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockKitTests.swift; sourceTree = "<group>"; };
 		4D14828B20FE356000581FA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4D14829520FE356C00581FA9 /* CallHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +81,6 @@
 			children = (
 				4D14827E20FE355F00581FA9 /* MockKit.h */,
 				4D14827F20FE356000581FA9 /* Info.plist */,
-				4D14829520FE356C00581FA9 /* CallHandler.swift */,
 				4D06F1412100E28300379515 /* Stub.swift */,
 				4D06F1452101B87B00379515 /* Matcher.swift */,
 				4D06F1472101C28000379515 /* Mockable.swift */,
@@ -210,7 +207,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D14829620FE356C00581FA9 /* CallHandler.swift in Sources */,
 				4D06F1482101C28000379515 /* Mockable.swift in Sources */,
 				4D06F14A2101EE2900379515 /* DefaultReturnValue.swift in Sources */,
 				4D06F1422100E28300379515 /* Stub.swift in Sources */,
