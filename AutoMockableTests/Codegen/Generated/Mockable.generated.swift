@@ -38,8 +38,8 @@ public class MockTestClass: TestClass, Mock {
 
 
 	/// Methods
-	override public func asda(value: [Int : String]) throws -> Int {
-		return try callHandler.acceptThrowingCall(method: "asda(value: [Int : String]) throws -> Int", args: [value], defaultReturnValue: Dummy<Int>.value)
+	override public func asda(value test: [Int : String]) throws -> Int {
+		return try callHandler.acceptThrowingCall(method: "asda(value test: [Int : String]) throws -> Int", args: [test], defaultReturnValue: Dummy<Int>.value)
 	}
 	override public func asda(value: [Int]) throws -> Int {
 		return try callHandler.acceptThrowingCall(method: "asda(value: [Int]) throws -> Int", args: [value], defaultReturnValue: Dummy<Int>.value)
@@ -64,10 +64,10 @@ public class MockTestClass: TestClass, Mock {
 		}()
 
 
-		func asda(value: Matcher<[Int : String]>) -> ThrowableMethodStub<Int> {
-			let identifier = "asda(value: [Int : String]) throws -> Int"
-			let stub = findStub(identifier: identifier, matching: [value]) as? ThrowableMethodStub<Int>
-			return stub ?? registerThrowingStub(identifier: identifier, argMatchers: [value], returnType: Int.self)
+		func asda(value test: Matcher<[Int : String]>) -> ThrowableMethodStub<Int> {
+			let identifier = "asda(value test: [Int : String]) throws -> Int"
+			let stub = findStub(identifier: identifier, matching: [test]) as? ThrowableMethodStub<Int>
+			return stub ?? registerThrowingStub(identifier: identifier, argMatchers: [test], returnType: Int.self)
 		}
 		func asda(value: Matcher<[Int]>) -> ThrowableMethodStub<Int> {
 			let identifier = "asda(value: [Int]) throws -> Int"

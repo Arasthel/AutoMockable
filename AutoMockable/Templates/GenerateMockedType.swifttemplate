@@ -36,7 +36,6 @@ func generateMethodDeclarations(for type: Type, accessLevel: String) -> String {
     let isClass = type.kind == "class"
 
 	for method in type.instanceMethods where isNotPrivate(method: method) && !isInitializer(method) {
-        let methodIdentifier = identifier(for: method)
         let argsAsArray = method.parameters.map { $0.name }.joined(separator: ", ")
         let methodThrows = "\(method.throws ? " throws" : "")\(method.rethrows ? " rethrows" : "")"
         let returnValue = defaultReturnValue(for: method.returnType, typeName: method.actualReturnTypeName)
