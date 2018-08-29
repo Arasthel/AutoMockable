@@ -1,0 +1,88 @@
+<%
+
+/// Utils.swifttemplate
+
+func mockClassName(for type: Type) -> String {
+    return "Mock\(type.name)"
+}
+
+func isInitializer(_ method: SourceryRuntime.Method) -> Bool {
+    return method.isInitializer
+}
+
+func isNotPrivate(method: SourceryRuntime.Method) -> Bool {
+    return method.accessLevel != "private" && method.accessLevel != "fileprivate"
+}
+
+func isNotPrivate(variable: SourceryRuntime.Variable) -> Bool {
+    return variable.readAccess != "private" && variable.readAccess != "fileprivate"
+}
+
+func isWritable(variable: Variable) -> Bool {
+    return variable.writeAccess != "private" && variable.writeAccess != "fileprivate"
+}
+
+func argsAsMatchers(_ args: [MethodParameter]) -> String {
+    return args.map { "\($0.argumentLabel ?? $0.name): ArgMatcher" }
+        .joined(separator: ", ")
+}
+
+func argsAsString(_ args: [MethodParameter]) -> String {
+    return args.map { "\($0.argumentLabel ?? $0.name): \($0.typeName)" }
+        .joined(separator: ", ")
+}
+
+func identifier(for method: SourceryRuntime.Method) -> String {
+    let argsNames = method.parameters.map {
+        let type = $0.typeName.description
+            .replacingOccurrences(of: "<", with: "Of")
+            .replacingOccurrences(of: ">", with: "")
+            .replacingOccurrences(of: "?", with: "Opt")
+        return "\($0.argumentLabel ?? $0.name)$\(type)"
+    }
+    .joined(separator: "_")
+    return "\(method.shortName)_\(argsNames)"
+}
+
+func identifier(forGetterOf property: Variable) -> String {
+    return "\(property.name)_getter"
+}
+
+func identifier(forSetterOf property: Variable) -> String {
+    return "\(property.name)_setter"
+}
+
+var dummyValueTypes: [String: (Type?, TypeName)] = [:]
+var selfClassName: String! = nil
+func defaultReturnValue(for type: Type?, typeName: TypeName) -> String {
+    if typeName.isOptional || typeName.isImplicitlyUnwrappedOptional {
+        return "nil"
+    } else if typeName.isArray {
+        return "[]"
+    } else if typeName.isDictionary {
+        return "[:]"
+    } else if typeName.isTuple, let tuple = typeName.tuple {
+        let list = tuple.elements
+                .flatMap { defaultReturnValue(for: $0.type, typeName: $0.typeName) }
+                .joined(separator: ", ")
+
+        return "(" + list + ")"
+    } else if typeName.isClosure, let closure = typeName.closure {
+        if closure.returnTypeName.isVoid {
+            return "{ _ in }"
+        } else {
+            return "{ _ in " + defaultReturnValue(for: closure.returnType, typeName: closure.returnTypeName) + " }"
+        }
+    } else if let type = type, type.kind == "protocol", type.inheritedTypes.contains("Mockable") {
+        return mockClassName(for: type) + "() as " + typeName.name
+    } else {
+        if typeName.name == "Self" {
+            return selfClassName + "()"
+        } else {
+            dummyValueTypes[typeName.name] = (type, typeName)
+            return "Dummy<" + typeName.name + ">.value"
+        }
+    }
+}
+
+%>

@@ -1,0 +1,10 @@
+sources:
+    - ../../..
+templates:
+    - Templates/Mockable.swifttemplate
+output:
+    path: ../../../AutoMockableTests/Codegen/Generated
+    link:
+        project: AutoMockable
+        target: AutoMoackableTests
+        group: AutoMockableTests/Codegen/Generated

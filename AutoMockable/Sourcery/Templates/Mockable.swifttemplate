@@ -1,0 +1,77 @@
+import AutoMockable
+
+<%- include("Utils.swifttemplate") -%>
+<%- include("GenerateCallHandlerForType") -%>
+<%- include("GenerateMockedType.swifttemplate") -%>
+
+<%_
+/// Mockable.swifttemplate
+
+var mockableProtocols = [Type]()
+for type in types.protocols where type.annotations["mockable"] != nil {
+    mockableProtocols.append(type)
+}
+
+var mockableClasses = [Type]()
+for type in types.classes where type.annotations["mockable"] != nil {
+    let accessLevel = type.accessLevel
+    print(
+    """
+    \(accessLevel) extension \(type.name) {
+        typealias MockedType = \(mockClassName(for: type))
+    }
+
+    """
+    )
+    mockableClasses.append(type)
+}
+
+for type in types.classes where type.inheritedTypes.contains("Mockable") {
+    mockableClasses.append(type)
+}
+
+/// Classes ////////////////////////////////////////////////////////////////////////////////////////
+
+for mockableClass in mockableClasses {
+    let parent = mockableClass.name
+    print(generateMockedType(for: mockableClass, inheritsFrom: parent))
+}
+
+/// Protocols //////////////////////////////////////////////////////////////////////////////////////
+
+for mockProtocol in mockableProtocols {
+    let parent = mockProtocol.name
+    print(generateMockedType(for: mockProtocol, inheritsFrom: parent))
+}
+
+for (name, (type, typeName)) in dummyValueTypes {
+    guard let type = type else {
+        continue
+    }
+
+    let suitableInits = type.initializers.filter {
+        $0.isInitializer && !$0.isFailableInitializer && !$0.throws && !$0.rethrows && $0.parameters.isEmpty
+    }
+
+    guard !suitableInits.isEmpty else {
+        continue
+    }
+
+    print("extension " + name + ": DefaultInitializable {}\n")
+}
+
+print("enum Mocks {")
+for mockProtocol in mockableProtocols {
+    let mockName = mockClassName(for: mockProtocol)
+    print("\tstatic func \(mockProtocol.name)() -> \(mockName) { return \(mockName)() }")
+}
+for mockableClass in mockableClasses {
+    let mockName = mockClassName(for: mockableClass)
+    for initializer in mockableClass.initializers {
+        let callParams = initializer.parameters.map { "\($0.argumentLabel ?? $0.name): \($0.name)"}.joined(separator: ", ")
+        print("\tstatic func \(mockableClass.name)(\(argsAsString(initializer.parameters))) -> \(mockName) { return \(mockName)(\(callParams)) }")
+    }
+}
+print("}")
+
+-%>

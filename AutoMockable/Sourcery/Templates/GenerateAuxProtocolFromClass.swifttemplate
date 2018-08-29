@@ -1,0 +1,49 @@
+<%
+
+/// GenerateAuxProtocolFromClass.swifttemplate
+
+func getAuxProtocolName(for type: Type) -> String {
+	return "_\(type.name)Protocol"
+}
+
+func generateAuxPropertyDeclarations(for type: Type) -> String {
+	
+	var declarations = ""
+	for property in type.instanceVariables where isNotPrivate(variable: property) {
+        let modifiers = isWritable(variable: property) ? "get set" : "get"
+        declarations += "\tvar \(property.name): \(property.typeName) { \(modifiers) }\n"
+    }
+    return declarations
+
+}
+
+func generateAuxMethodDeclarations(for type: Type) -> String {
+	
+	var declarations = ""
+	for method in type.methods where isNotPrivate(method: method) && !isInitializer(method) {
+        declarations += "\tfunc \(method.name) -> \(method.actualReturnTypeName)\n"
+    }
+    return declarations
+
+}
+
+func generateAuxProtocolFromClass(_ type: Type) -> String {
+
+	let mockProtocolName = getAuxProtocolName(for: type)
+
+	return 
+"""
+
+protocol \(mockProtocolName) {
+	
+\(generateAuxPropertyDeclarations(for: type))
+
+\(generateAuxMethodDeclarations(for: type))
+
+}
+
+"""
+	
+}
+
+%>

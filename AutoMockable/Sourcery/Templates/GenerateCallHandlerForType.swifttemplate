@@ -1,0 +1,73 @@
+<%
+
+/// GenerateCallHandlerForType.swifttemplate
+
+func generateMockPropertyDeclarations(for type: Type) -> String {
+    let mockName = mockClassName(for: type)
+	var declarations = ""
+	for property in type.instanceVariables where isNotPrivate(variable: property) {
+        let getterIdentifier = identifier(forGetterOf: property)
+
+        if property.isMutable {
+            let setterIdentifier = identifier(forSetterOf: property)
+
+            declarations +=
+"""
+\t\tlazy var \(property.name): Property<\(property.typeName)> = {
+\t\t\tProperty<\(property.typeName)>(getterIdentifier: \(mockName).identifier(for: .\(getterIdentifier)), setterIdentifier: \(mockName).identifier(for: .\(setterIdentifier)), callHandler: self)
+\t\t}()\n
+"""
+        } else {
+            declarations +=
+"""
+\t\tlazy var \(property.name): ReadOnlyProperty<\(property.typeName)> = {
+\t\t\tReadOnlyProperty<\(property.typeName)>(getterIdentifier: \(mockName).identifier(for: .\(getterIdentifier)), callHandler: self)
+\t\t}()\n
+"""
+        }
+    }
+    return declarations
+}
+
+func generateMockMethodDeclarations(for type: Type) -> String {
+    let mockName = mockClassName(for: type)
+	var declarations = ""
+    for method in type.methods where isNotPrivate(method: method) && !isInitializer(method) {
+        let methodIdentifier = identifier(for: method)
+        let argsAsArray = method.parameters.map { $0.name }.joined(separator: ", ")
+        let methodThrows = method.throws || method.rethrows
+        declarations += "\t\tfunc \(method.shortName)(\(argsAsMatchers(method.parameters))) -> \(methodThrows ? "Throwable" : "")MethodStub<\(method.actualReturnTypeName)> {\n"
+        declarations += "\t\t\tlet identifier = \(mockName).identifier(for: .\(methodIdentifier))\n"
+        declarations += "\t\t\tlet stub = findStub(identifier: identifier, matching: [\(argsAsArray)]) as? \(methodThrows ? "Throwable" : "")MethodStub<\(method.actualReturnTypeName)>\n"
+        if methodThrows {
+            declarations += "\t\t\treturn stub ?? registerThrowingStub(identifier: identifier, argMatchers: [\(argsAsArray)], returnType: \(method.actualReturnTypeName).self)\n"
+        } else {
+            declarations += "\t\t\treturn stub ?? registerStub(identifier: identifier, argMatchers: [\(argsAsArray)], returnType: \(method.actualReturnTypeName).self)\n"
+        }
+        declarations += "\t\t}\n"
+    }
+    return declarations
+}
+
+func generateCallHandler(for type: Type) -> String {
+
+	let mockName = mockClassName(for: type)
+	let callHandlerName = "\(mockName)CallHandler"
+	
+	return
+"""
+	\(type.accessLevel) class \(callHandlerName): MethodCallHandler {
+
+        override public init() {
+            super.init()
+        }
+
+\(generateMockPropertyDeclarations(for: type))
+
+\(generateMockMethodDeclarations(for: type))
+	}
+"""
+
+}
+
+%>

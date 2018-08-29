@@ -1,0 +1,144 @@
+<%
+
+/// GenerateMockedType.swifttemplate
+
+func generateMethodIdEnum(for type: Type, accessLevel: String) -> String {
+	
+	var enumCases = "\t\(accessLevel) enum MethodId: String {\n"
+
+    for property in type.instanceVariables where isNotPrivate(variable: property) {
+        enumCases += "\t\tcase \(identifier(forGetterOf: property)) = \"property_\(property.name)_getter\"\n"
+        if property.isMutable && isWritable(variable: property) {
+            enumCases += "\t\tcase \(identifier(forSetterOf: property)) = \"property_\(property.name)_setter\"\n"
+        }
+    }
+    for method in type.methods where isNotPrivate(method: method) && !isInitializer(method) {
+        enumCases += "\t\tcase \(identifier(for: method)) = \"\(method.name)\"\n"
+    }
+    enumCases += "\t}"
+
+    return enumCases
+
+}
+
+func generatePropertyDeclarations(for type: Type, accessLevel: String) -> String {
+    let mockName = mockClassName(for: type)
+
+	var declarations = ""
+
+    let isClass = type.kind == "class"
+
+	for property in type.instanceVariables where isNotPrivate(variable: property) {
+        let propertyGetterId = identifier(forGetterOf: property)
+        let returnValue = defaultReturnValue(for: property.type, typeName: property.typeName)
+        declarations += "\t\(isClass ? "override " : "")\(accessLevel) var \(property.name): \(property.typeName) {\n"
+
+        if property.isMutable {
+            let propertySetterId = identifier(forSetterOf: property)
+
+            if isWritable(variable: property) {
+                declarations += "\t\tset { callHandler.acceptCall(method: \(mockName).identifier(for: .\(propertySetterId)), args: [newValue]) }\n"
+            }
+        }
+
+        declarations += "\t\tget { return callHandler.acceptCall(method: \(mockName).identifier(for: .\(propertyGetterId)), args: [], defaultReturnValue: \(returnValue)) }\n"
+        declarations += "\t}\n"
+    }
+    return declarations
+}
+
+func generateMethodDeclarations(for type: Type, accessLevel: String) -> String {
+    let mockName = mockClassName(for: type)
+
+	var declarations = ""
+
+    let isClass = type.kind == "class"
+
+	for method in type.instanceMethods where isNotPrivate(method: method) && !isInitializer(method) {
+        let methodIdentifier = identifier(for: method)
+        let argsAsArray = method.parameters.map { $0.name }.joined(separator: ", ")
+        let methodThrows = "\(method.throws ? " throws" : "")\(method.rethrows ? " rethrows" : "")"
+        let returnValue = defaultReturnValue(for: method.returnType, typeName: method.actualReturnTypeName)
+        declarations += "\t\(isClass ? "override " : "")\(accessLevel) func \(method.name)\(methodThrows) -> \(method.actualReturnTypeName) {\n"
+        if !methodThrows.isEmpty {
+            declarations += "\t\treturn try callHandler.acceptThrowingCall(method: \(mockName).identifier(for: .\(methodIdentifier)), args: [\(argsAsArray)], defaultReturnValue: \(returnValue))\n"
+        } else {
+            declarations += "\t\treturn callHandler.acceptCall(method: \(mockName).identifier(for: .\(methodIdentifier)), args: [\(argsAsArray)], defaultReturnValue: \(returnValue))\n"
+        }
+        declarations += "\t}\n"
+    }
+
+    return declarations
+
+}
+
+func generateInitializer(for type: Type) -> String {
+    let isClass = type.kind == "class"
+    let accessLevel = type.accessLevel
+
+    if !isClass {
+        return "\trequired \(accessLevel) init() {}"
+    } else {
+        var result = ""
+        for method in type.initializers where isInitializer(method) {
+            let methodThrows = method.throws
+            result += "\toverride \(accessLevel) \(method.name) { \n"
+            result += "\t\t\(methodThrows ? "try " : "")super.init("
+            let params = method.parameters.map { parameter in
+                "\(parameter.argumentLabel ?? parameter.name): \(parameter.name)"
+            }
+            .joined(separator: ", ")
+            result += params + ")\n"
+            result += "\t}\n"
+        }
+
+        if result.isEmpty {
+            result = "\toverride required \(accessLevel) init() {}\n"
+        }
+
+        return result
+    }
+}
+
+func generateMockedType(for type: Type, inheritsFrom parent: String) -> String {
+
+	let mockName = mockClassName(for: type)
+	let accessLevel = type.accessLevel
+
+	return 
+"""
+\(accessLevel) class \(mockName): \(parent), Mock {
+	
+	/// Method Ids
+\(generateMethodIdEnum(for: type, accessLevel: accessLevel))
+
+	\(accessLevel) typealias MockMethodId = MethodId
+
+    \(accessLevel) typealias CallHandler = \(mockName)CallHandler
+    private let callHandler = \(mockName).CallHandler()
+
+    /// Needed because of Mockable protocol
+    \(accessLevel) typealias MockedType = \(mockName)
+
+    /// Initializers
+\(generateInitializer(for: type))
+
+	/// Properties
+\(generatePropertyDeclarations(for: type, accessLevel: accessLevel))
+
+	/// Methods
+\(generateMethodDeclarations(for: type, accessLevel: accessLevel))
+
+	\(accessLevel) func getCallHandler() -> CallHandler {
+        return callHandler
+    }
+
+\(generateCallHandler(for: type))
+
+}
+
+"""
+
+}
+
+%>
