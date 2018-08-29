@@ -32,6 +32,14 @@ func argsAsString(_ args: [MethodParameter]) -> String {
         .joined(separator: ", ")
 }
 
+func completeMethodSignature(for method: SourceryRuntime.Method) -> String {
+    var itThrows = ""
+    if method.throws { itThrows = " throws" }
+    if method.rethrows { itThrows = " rethrows" }
+
+    return "\(method.name)\(itThrows) -> \(method.actualReturnTypeName)"
+}
+
 func identifier(for method: SourceryRuntime.Method) -> String {
     let argsNames = method.parameters.map {
         let type = $0.typeName.description

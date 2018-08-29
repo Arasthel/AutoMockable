@@ -10,7 +10,6 @@ import Foundation
 
 public protocol Mock {
     
-    associatedtype MockMethodId: RawRepresentable
     associatedtype CallHandler
     
     func getCallHandler() -> CallHandler
@@ -29,14 +28,6 @@ extension Mock {
         let when = self.getCallHandler()
         let methodStub = closure(when)
         return methodStub
-    }
-    
-    public static func identifier(for mockMethod: MockMethodId) -> String {
-        // If rawValue is a String, use it as the identifier
-        if type(of: mockMethod).RawValue.self == String.self {
-            return mockMethod.rawValue as! String
-        }
-        return "method-\(mockMethod.rawValue)"
     }
     
 }

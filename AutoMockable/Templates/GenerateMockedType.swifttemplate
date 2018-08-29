@@ -2,25 +2,6 @@
 
 /// GenerateMockedType.swifttemplate
 
-func generateMethodIdEnum(for type: Type, accessLevel: String) -> String {
-	
-	var enumCases = "\t\(accessLevel) enum MethodId: String {\n"
-
-    for property in type.instanceVariables where isNotPrivate(variable: property) {
-        enumCases += "\t\tcase \(identifier(forGetterOf: property)) = \"property_\(property.name)_getter\"\n"
-        if property.isMutable && isWritable(variable: property) {
-            enumCases += "\t\tcase \(identifier(forSetterOf: property)) = \"property_\(property.name)_setter\"\n"
-        }
-    }
-    for method in type.methods where isNotPrivate(method: method) && !isInitializer(method) {
-        enumCases += "\t\tcase \(identifier(for: method)) = \"\(method.name)\"\n"
-    }
-    enumCases += "\t}"
-
-    return enumCases
-
-}
-
 func generatePropertyDeclarations(for type: Type, accessLevel: String) -> String {
     let mockName = mockClassName(for: type)
 
@@ -37,11 +18,11 @@ func generatePropertyDeclarations(for type: Type, accessLevel: String) -> String
             let propertySetterId = identifier(forSetterOf: property)
 
             if isWritable(variable: property) {
-                declarations += "\t\tset { callHandler.acceptCall(method: \(mockName).identifier(for: .\(propertySetterId)), args: [newValue]) }\n"
+                declarations += "\t\tset { callHandler.acceptCall(method: \"\(propertySetterId)\", args: [newValue]) }\n"
             }
         }
 
-        declarations += "\t\tget { return callHandler.acceptCall(method: \(mockName).identifier(for: .\(propertyGetterId)), args: [], defaultReturnValue: \(returnValue)) }\n"
+        declarations += "\t\tget { return callHandler.acceptCall(method: \"\(propertyGetterId)\", args: [], defaultReturnValue: \(returnValue)) }\n"
         declarations += "\t}\n"
     }
     return declarations
@@ -60,10 +41,11 @@ func generateMethodDeclarations(for type: Type, accessLevel: String) -> String {
         let methodThrows = "\(method.throws ? " throws" : "")\(method.rethrows ? " rethrows" : "")"
         let returnValue = defaultReturnValue(for: method.returnType, typeName: method.actualReturnTypeName)
         declarations += "\t\(isClass ? "override " : "")\(accessLevel) func \(method.name)\(methodThrows) -> \(method.actualReturnTypeName) {\n"
+        let methodSignature = completeMethodSignature(for: method)
         if !methodThrows.isEmpty {
-            declarations += "\t\treturn try callHandler.acceptThrowingCall(method: \(mockName).identifier(for: .\(methodIdentifier)), args: [\(argsAsArray)], defaultReturnValue: \(returnValue))\n"
+            declarations += "\t\treturn try callHandler.acceptThrowingCall(method: \"\(methodSignature)\", args: [\(argsAsArray)], defaultReturnValue: \(returnValue))\n"
         } else {
-            declarations += "\t\treturn callHandler.acceptCall(method: \(mockName).identifier(for: .\(methodIdentifier)), args: [\(argsAsArray)], defaultReturnValue: \(returnValue))\n"
+            declarations += "\t\treturn callHandler.acceptCall(method: \"\(methodSignature)\", args: [\(argsAsArray)], defaultReturnValue: \(returnValue))\n"
         }
         declarations += "\t}\n"
     }
@@ -107,13 +89,12 @@ func generateMockedType(for type: Type, inheritsFrom parent: String) -> String {
 
 	return 
 """
+// ==================================================================
+// MARK: \(mockName)
+// ==================================================================
+
 \(accessLevel) class \(mockName): \(parent), Mock {
 	
-	/// Method Ids
-\(generateMethodIdEnum(for: type, accessLevel: accessLevel))
-
-	\(accessLevel) typealias MockMethodId = MethodId
-
     \(accessLevel) typealias CallHandler = \(mockName)CallHandler
     private let callHandler = \(mockName).CallHandler()
 

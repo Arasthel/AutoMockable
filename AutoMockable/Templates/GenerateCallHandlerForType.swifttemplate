@@ -14,14 +14,14 @@ func generateMockPropertyDeclarations(for type: Type) -> String {
             declarations +=
 """
 \t\tlazy var \(property.name): Property<\(property.typeName)> = {
-\t\t\tProperty<\(property.typeName)>(getterIdentifier: \(mockName).identifier(for: .\(getterIdentifier)), setterIdentifier: \(mockName).identifier(for: .\(setterIdentifier)), callHandler: self)
+\t\t\tProperty<\(property.typeName)>(getterIdentifier: \"\(getterIdentifier)\", setterIdentifier: \"\(setterIdentifier)\", callHandler: self)
 \t\t}()\n
 """
         } else {
             declarations +=
 """
 \t\tlazy var \(property.name): ReadOnlyProperty<\(property.typeName)> = {
-\t\t\tReadOnlyProperty<\(property.typeName)>(getterIdentifier: \(mockName).identifier(for: .\(getterIdentifier)), callHandler: self)
+\t\t\tReadOnlyProperty<\(property.typeName)>(getterIdentifier: \"\(getterIdentifier)\", callHandler: self)
 \t\t}()\n
 """
         }
@@ -36,8 +36,9 @@ func generateMockMethodDeclarations(for type: Type) -> String {
         let methodIdentifier = identifier(for: method)
         let argsAsArray = method.parameters.map { $0.name }.joined(separator: ", ")
         let methodThrows = method.throws || method.rethrows
+        let methodSignature = completeMethodSignature(for: method)
         declarations += "\t\tfunc \(method.shortName)(\(argsAsMatchers(method.parameters))) -> \(methodThrows ? "Throwable" : "")MethodStub<\(method.actualReturnTypeName)> {\n"
-        declarations += "\t\t\tlet identifier = \(mockName).identifier(for: .\(methodIdentifier))\n"
+        declarations += "\t\t\tlet identifier = \"\(methodSignature)\"\n"
         declarations += "\t\t\tlet stub = findStub(identifier: identifier, matching: [\(argsAsArray)]) as? \(methodThrows ? "Throwable" : "")MethodStub<\(method.actualReturnTypeName)>\n"
         if methodThrows {
             declarations += "\t\t\treturn stub ?? registerThrowingStub(identifier: identifier, argMatchers: [\(argsAsArray)], returnType: \(method.actualReturnTypeName).self)\n"
