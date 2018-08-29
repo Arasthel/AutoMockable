@@ -24,8 +24,12 @@ func isWritable(variable: Variable) -> Bool {
 
 func argsAsMatchers(_ args: [MethodParameter]) -> String {
     return args.map {
-            let argLabel = $0.argumentLabel != $0.name ? $0.argumentLabel! + " " : ""
-            return "\(argLabel)\($0.name): Matcher<\($0.typeName)>" 
+            if $0.argumentLabel == nil {
+                return "_ \($0.name): Matcher<\($0.typeName)>"
+            } else {
+                let argLabel = $0.argumentLabel != $0.name ? $0.argumentLabel! + " " : ""
+                return "\(argLabel)\($0.name): Matcher<\($0.typeName)>"
+            }
         }
         .joined(separator: ", ")
 }

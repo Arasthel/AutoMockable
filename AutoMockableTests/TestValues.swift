@@ -21,7 +21,7 @@ public class TestClass {
         self.a = a
     }
     
-    func asda(value test: [Int : String]) throws -> Int { return 0 }
+    func asda(_ test: [Int : String]) throws -> Int { return 0 }
     func asda(value: [Int]) throws -> Int { return 0 }
     func asda(value: String?) -> String { return "" }
 }
