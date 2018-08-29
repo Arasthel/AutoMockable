@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "AutoMockable"
-  s.version      = "0.1"
+  s.version      = "0.1.1"
   s.summary      = "Framework to generate Mockito-style mocks automatically."
   s.homepage     = "https://github.com/Arasthel/AutoMockable"
 
