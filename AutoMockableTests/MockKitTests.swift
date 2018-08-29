@@ -30,10 +30,10 @@ class MockKitTests: MockKitTestCase {
         // Class
         let classMock = Mocks.TestClass(a: 0)
         
-        classMock.when { $0.asda(value: any()) }.thenReturn(-1)
-        let resultClass = try! classMock.asda(value: 0)
+        classMock.when { $0.asda(value: any() as AnyValueMatcher<[Int]>) }.thenReturn(-1)
+        let resultClass = try! classMock.asda(value: [0])
         XCTAssertEqual(-1, resultClass)
-        classMock.verify({ $0.asda(value: any()) as ThrowableMethodStub<Int> })
+        classMock.verify({ $0.asda(value: any() as AnyValueMatcher<[Int]>) as ThrowableMethodStub<Int> })
         
         classMock.when({ $0.a.get() }).thenReturn(100)
         let testClassProperty = classMock.a

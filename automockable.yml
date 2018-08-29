@@ -2,9 +2,6 @@ sources:
     - AutoMockableTests
 templates:
     - AutoMockable/Templates/Mockable.swifttemplate
-args:
-    import:
-        - UIKit
 output:
     path: AutoMockableTests/Codegen/Generated
     link:

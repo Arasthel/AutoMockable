@@ -3,8 +3,6 @@
 
 import AutoMockable
 
-// Module imports
-import UIKit
 
 
 
@@ -20,8 +18,9 @@ public class MockTestClass: TestClass, Mock {
 	public enum MethodId: String {
 		case a_getter = "property_a_getter"
 		case a_setter = "property_a_setter"
-		case asda_value$Int = "asda(value: Int)"
-		case asda_value$StringOpt = "asda(value: String?)"
+		case asda_value·$Int˛to¸String$ = "asda(value: [Int : String])"
+		case asda_value·$Int$ = "asda(value: [Int])"
+		case asda_value·StringOpt = "asda(value: String?)"
 	}
 
 	public typealias MockMethodId = MethodId
@@ -46,11 +45,14 @@ public class MockTestClass: TestClass, Mock {
 
 
 	/// Methods
-	override public func asda(value: Int) throws -> Int {
-		return try callHandler.acceptThrowingCall(method: MockTestClass.identifier(for: .asda_value$Int), args: [value], defaultReturnValue: Dummy<Int>.value)
+	override public func asda(value: [Int : String]) throws -> Int {
+		return try callHandler.acceptThrowingCall(method: MockTestClass.identifier(for: .asda_value·$Int˛to¸String$), args: [value], defaultReturnValue: Dummy<Int>.value)
+	}
+	override public func asda(value: [Int]) throws -> Int {
+		return try callHandler.acceptThrowingCall(method: MockTestClass.identifier(for: .asda_value·$Int$), args: [value], defaultReturnValue: Dummy<Int>.value)
 	}
 	override public func asda(value: String?) -> String {
-		return callHandler.acceptCall(method: MockTestClass.identifier(for: .asda_value$StringOpt), args: [value], defaultReturnValue: Dummy<String>.value)
+		return callHandler.acceptCall(method: MockTestClass.identifier(for: .asda_value·StringOpt), args: [value], defaultReturnValue: Dummy<String>.value)
 	}
 
 
@@ -69,13 +71,18 @@ public class MockTestClass: TestClass, Mock {
 		}()
 
 
-		func asda(value: ArgMatcher) -> ThrowableMethodStub<Int> {
-			let identifier = MockTestClass.identifier(for: .asda_value$Int)
+		func asda(value: Matcher<[Int : String]>) -> ThrowableMethodStub<Int> {
+			let identifier = MockTestClass.identifier(for: .asda_value·$Int˛to¸String$)
 			let stub = findStub(identifier: identifier, matching: [value]) as? ThrowableMethodStub<Int>
 			return stub ?? registerThrowingStub(identifier: identifier, argMatchers: [value], returnType: Int.self)
 		}
-		func asda(value: ArgMatcher) -> MethodStub<String> {
-			let identifier = MockTestClass.identifier(for: .asda_value$StringOpt)
+		func asda(value: Matcher<[Int]>) -> ThrowableMethodStub<Int> {
+			let identifier = MockTestClass.identifier(for: .asda_value·$Int$)
+			let stub = findStub(identifier: identifier, matching: [value]) as? ThrowableMethodStub<Int>
+			return stub ?? registerThrowingStub(identifier: identifier, argMatchers: [value], returnType: Int.self)
+		}
+		func asda(value: Matcher<String?>) -> MethodStub<String> {
+			let identifier = MockTestClass.identifier(for: .asda_value·StringOpt)
 			let stub = findStub(identifier: identifier, matching: [value]) as? MethodStub<String>
 			return stub ?? registerStub(identifier: identifier, argMatchers: [value], returnType: String.self)
 		}
@@ -89,7 +96,7 @@ public class MockTestProtocol: TestProtocol, Mock {
 	/// Method Ids
 	public enum MethodId: String {
 		case b_getter = "property_b_getter"
-		case asda_value$Int = "asda(value: Int)"
+		case asda_value·Int = "asda(value: Int)"
 	}
 
 	public typealias MockMethodId = MethodId
@@ -111,7 +118,7 @@ public class MockTestProtocol: TestProtocol, Mock {
 
 	/// Methods
 	public func asda(value: Int) -> Int {
-		return callHandler.acceptCall(method: MockTestProtocol.identifier(for: .asda_value$Int), args: [value], defaultReturnValue: Dummy<Int>.value)
+		return callHandler.acceptCall(method: MockTestProtocol.identifier(for: .asda_value·Int), args: [value], defaultReturnValue: Dummy<Int>.value)
 	}
 
 
@@ -130,8 +137,8 @@ public class MockTestProtocol: TestProtocol, Mock {
 		}()
 
 
-		func asda(value: ArgMatcher) -> MethodStub<Int> {
-			let identifier = MockTestProtocol.identifier(for: .asda_value$Int)
+		func asda(value: Matcher<Int>) -> MethodStub<Int> {
+			let identifier = MockTestProtocol.identifier(for: .asda_value·Int)
 			let stub = findStub(identifier: identifier, matching: [value]) as? MethodStub<Int>
 			return stub ?? registerStub(identifier: identifier, argMatchers: [value], returnType: Int.self)
 		}

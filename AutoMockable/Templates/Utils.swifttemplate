@@ -23,7 +23,7 @@ func isWritable(variable: Variable) -> Bool {
 }
 
 func argsAsMatchers(_ args: [MethodParameter]) -> String {
-    return args.map { "\($0.argumentLabel ?? $0.name): ArgMatcher" }
+    return args.map { "\($0.argumentLabel ?? $0.name): Matcher<\($0.typeName)>" }
         .joined(separator: ", ")
 }
 
@@ -35,12 +35,23 @@ func argsAsString(_ args: [MethodParameter]) -> String {
 func identifier(for method: SourceryRuntime.Method) -> String {
     let argsNames = method.parameters.map {
         let type = $0.typeName.description
-            .replacingOccurrences(of: "<", with: "Of")
-            .replacingOccurrences(of: ">", with: "")
+            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "[", with: "$")
+            .replacingOccurrences(of: "]", with: "$")
+            .replacingOccurrences(of: "<", with: "‹")
+            .replacingOccurrences(of: ">", with: "›")
+            .replacingOccurrences(of: ":", with: "˛to¸")
             .replacingOccurrences(of: "?", with: "Opt")
-        return "\($0.argumentLabel ?? $0.name)$\(type)"
+        return "\($0.argumentLabel ?? $0.name)·\(type)"
     }
     .joined(separator: "_")
+    let methodName = method.selectorName
+        .trimmingCharacters(in: .whitespaces)
+        .replacingOccurrences(of: "(", with: "_")
+        .replacingOccurrences(of: ")", with: "")
+        .replacingOccurrences(of: ":", with: "")
+        .replacingOccurrences(of: ",", with: "_")
+    //return methodName
     return "\(method.shortName)_\(argsNames)"
 }
 

@@ -28,34 +28,50 @@ public protocol ArgMatcher {
     
 }
 
-/// `ArgMatcher` that matches any value. Will always return true.
-public struct AnyValueMatcher: ArgMatcher {
+public class Matcher<T>: ArgMatcher {
     
     public func matches(value: Any?) -> Bool {
-        return true
+        return false
     }
     
     public func equals(matcher: ArgMatcher) -> Bool {
+        return false
+    }
+    
+}
+
+/// `ArgMatcher` that matches any value. Will always return true.
+public class AnyValueMatcher<T>: Matcher<T> {
+    
+    override public func matches(value: Any?) -> Bool {
+        return true
+    }
+    
+    override public func equals(matcher: ArgMatcher) -> Bool {
         return matcher is AnyValueMatcher
     }
     
 }
 /// Syntactic sugar to create an `AnyValueMatcher`.
-public func any() -> AnyValueMatcher {
-    return AnyValueMatcher()
+public func any<T>() -> AnyValueMatcher<T> {
+    return AnyValueMatcher<T>()
 }
 
 /// `ArgMatcher` that checks whether the provided value equals another concrete one.
-public struct ValueMatcher<T: Equatable>: ArgMatcher {
+public class ValueMatcher<T: Equatable>: Matcher<T> {
     
     let valueToMatch: T
     
-    public func matches(value: Any?) -> Bool {
+    init(valueToMatch: T) {
+        self.valueToMatch = valueToMatch
+    }
+    
+    override public func matches(value: Any?) -> Bool {
         guard let mappedValue = value as? T else { return false }
         return mappedValue == valueToMatch
     }
     
-    public func equals(matcher: ArgMatcher) -> Bool {
+    override public func equals(matcher: ArgMatcher) -> Bool {
         if let matcher = matcher as? ValueMatcher<T>, matcher.valueToMatch == valueToMatch { return true }
         return false
     }
@@ -67,15 +83,19 @@ public func `is`<T>(_ value: T) -> ValueMatcher<T> {
 }
 
 /// `ArgMatcher` that checks whether the provided value is of a concrete `Type`.
-public struct TypeMatcher<T: Any>: ArgMatcher {
+public class TypeMatcher<T: Any>: Matcher<T> {
     
     let typeToMatch: T.Type
     
-    public func matches(value: Any?) -> Bool {
+    init(typeToMatch: T.Type) {
+        self.typeToMatch = typeToMatch
+    }
+    
+    override public func matches(value: Any?) -> Bool {
         return type(of: value) == typeToMatch
     }
     
-    public func equals(matcher: ArgMatcher) -> Bool {
+    override public func equals(matcher: ArgMatcher) -> Bool {
         if let matcher = matcher as? TypeMatcher<T>, matcher.typeToMatch == typeToMatch { return true }
         return false
     }
@@ -87,11 +107,15 @@ public func any<T>(_ type: T.Type) -> TypeMatcher<T> {
 }
 
 /// `ArgMatcher` that checks whether the provided value matches any value of a list.
-public struct AnyOfListValueMatcher<T: Equatable>: ArgMatcher {
+public class AnyOfListValueMatcher<T: Equatable>: Matcher<T> {
     
     let valuesToMatch: [T]
     
-    public func matches(value: Any?) -> Bool {
+    init(valuesToMatch: [T]) {
+        self.valuesToMatch = valuesToMatch
+    }
+    
+    override public func matches(value: Any?) -> Bool {
         guard let mappedValue = value as? T else { return false }
         for valueToMatch in valuesToMatch {
             if mappedValue == valueToMatch { return true }
@@ -99,7 +123,7 @@ public struct AnyOfListValueMatcher<T: Equatable>: ArgMatcher {
         return false
     }
     
-    public func equals(matcher: ArgMatcher) -> Bool {
+    override public func equals(matcher: ArgMatcher) -> Bool {
         if let matcher = matcher as? AnyOfListValueMatcher<T>, matcher.valuesToMatch == valuesToMatch { return true }
         return false
     }
@@ -111,16 +135,21 @@ public func any<T: Equatable>(of values: [T]) -> AnyOfListValueMatcher<T> {
 }
 
 /// `ArgMatcher` that checks whether the provided value passes a closure's check.
-public struct PassingConditionMatcher<T>: ArgMatcher {
+public class PassingConditionMatcher<T>: Matcher<T> {
+    
     let condition: ((T) -> Bool)
     
-    public func matches(value: Any?) -> Bool {
+    init(condition: @escaping ((T) -> Bool)) {
+        self.condition = condition
+    }
+    
+    override public func matches(value: Any?) -> Bool {
         
         guard let mappedValue = value as? T else { return false }
         return condition(mappedValue)
     }
     
-    public func equals(matcher: ArgMatcher) -> Bool {
+    override public func equals(matcher: ArgMatcher) -> Bool {
         // I wish there was a better way to check this...
         return matcher is PassingConditionMatcher<T>
     }
