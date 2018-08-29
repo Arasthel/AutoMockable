@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39557A086793A2AD26EA1405 /* Pods_AutoMockable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F961770FCF5C58D9A7AA5A /* Pods_AutoMockable.framework */; };
 		4D06F1462101B87B00379515 /* ArgMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D06F1452101B87B00379515 /* ArgMatcher.swift */; };
 		4D06F1482101C28000379515 /* Mockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D06F1472101C28000379515 /* Mockable.swift */; };
 		4D14828520FE356000581FA9 /* AutoMockable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D14827B20FE355F00581FA9 /* AutoMockable.framework */; };
@@ -20,7 +21,7 @@
 		4D48665221132FA3001B9865 /* PropertyStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48665121132FA3001B9865 /* PropertyStub.swift */; };
 		4D4866952114390B001B9865 /* ReturnValueStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4866942114390B001B9865 /* ReturnValueStream.swift */; };
 		4DDE4B6D210AF88400F135AE /* Mockable.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = 4DDE4B6C210AF88400F135AE /* Mockable.swifttemplate */; };
-		4DDE4B6F210AF9A800F135AE /* .sourcery.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4DDE4B6E210AF9A800F135AE /* .sourcery.yml */; };
+		4DDE4B6F210AF9A800F135AE /* automockable.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4DDE4B6E210AF9A800F135AE /* automockable.yml */; };
 		4DDE4B75210AFD4600F135AE /* Mockable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE4B74210AFD4600F135AE /* Mockable.generated.swift */; };
 		4DDE4B76210AFF7800F135AE /* Mockable.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = 4DDE4B6C210AF88400F135AE /* Mockable.swifttemplate */; };
 		4DDE4B7C210B2BC800F135AE /* DefaultInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE4B7B210B2BC800F135AE /* DefaultInitializable.swift */; };
@@ -30,8 +31,7 @@
 		4DDE4B84210B5FFA00F135AE /* GenerateMockedType.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = 4DDE4B83210B5FFA00F135AE /* GenerateMockedType.swifttemplate */; };
 		4DDE4B86210B631C00F135AE /* GenerateCallHandlerForType.swifttemplate in Resources */ = {isa = PBXBuildFile; fileRef = 4DDE4B85210B631C00F135AE /* GenerateCallHandlerForType.swifttemplate */; };
 		4DE0889421368D5900B41D5B /* TestValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48665521133007001B9865 /* TestValues.swift */; };
-		91A156A4B46E0A32E8A0C674 /* Pods_MockKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AED3EED1E4CAE49E78A18911 /* Pods_MockKit.framework */; };
-		CD5848F5ECB4F3B83980719A /* Pods_MockKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2912D2F62F76E45CDD7CED77 /* Pods_MockKitTests.framework */; };
+		70A6547D7EB41D6C694A3E32 /* Pods_AutoMockableTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00D0EC70B316AC670BBCBBAB /* Pods_AutoMockableTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00D0EC70B316AC670BBCBBAB /* Pods_AutoMockableTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AutoMockableTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2912D2F62F76E45CDD7CED77 /* Pods_MockKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D5B49A19F8E27CA846037E7 /* Pods-MockKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MockKit/Pods-MockKit.debug.xcconfig"; sourceTree = "<group>"; };
+		3575001FDD52477F2C29C840 /* Pods-AutoMockable.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutoMockable.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AutoMockable/Pods-AutoMockable.debug.xcconfig"; sourceTree = "<group>"; };
 		4D06F1452101B87B00379515 /* ArgMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgMatcher.swift; sourceTree = "<group>"; };
 		4D06F1472101C28000379515 /* Mockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mockable.swift; sourceTree = "<group>"; };
 		4D14827B20FE355F00581FA9 /* AutoMockable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AutoMockable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,7 +66,7 @@
 		4D48665521133007001B9865 /* TestValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestValues.swift; sourceTree = "<group>"; };
 		4D4866942114390B001B9865 /* ReturnValueStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnValueStream.swift; sourceTree = "<group>"; };
 		4DDE4B6C210AF88400F135AE /* Mockable.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = Mockable.swifttemplate; sourceTree = "<group>"; };
-		4DDE4B6E210AF9A800F135AE /* .sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .sourcery.yml; sourceTree = "<group>"; };
+		4DDE4B6E210AF9A800F135AE /* automockable.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = automockable.yml; path = ../automockable.yml; sourceTree = "<group>"; };
 		4DDE4B74210AFD4600F135AE /* Mockable.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mockable.generated.swift; sourceTree = "<group>"; };
 		4DDE4B7B210B2BC800F135AE /* DefaultInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInitializable.swift; sourceTree = "<group>"; };
 		4DDE4B7D210B34B900F135AE /* MockableConformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockableConformance.swift; sourceTree = "<group>"; };
@@ -73,10 +74,11 @@
 		4DDE4B81210B5FB000F135AE /* Utils.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = Utils.swifttemplate; sourceTree = "<group>"; };
 		4DDE4B83210B5FFA00F135AE /* GenerateMockedType.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = GenerateMockedType.swifttemplate; sourceTree = "<group>"; };
 		4DDE4B85210B631C00F135AE /* GenerateCallHandlerForType.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = GenerateCallHandlerForType.swifttemplate; sourceTree = "<group>"; };
+		6C399FC60788A66A0BF299A7 /* Pods-AutoMockableTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutoMockableTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AutoMockableTests/Pods-AutoMockableTests.debug.xcconfig"; sourceTree = "<group>"; };
+		945B37C4D301DC1E49DCFD5E /* Pods-AutoMockableTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutoMockableTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AutoMockableTests/Pods-AutoMockableTests.release.xcconfig"; sourceTree = "<group>"; };
 		AED3EED1E4CAE49E78A18911 /* Pods_MockKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MockKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B32A389E20E037E7996BEC92 /* Pods-MockKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MockKitTests/Pods-MockKitTests.release.xcconfig"; sourceTree = "<group>"; };
-		BAB7FC7FA784241B2A748618 /* Pods-MockKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MockKitTests/Pods-MockKitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BEFDD0F253BFF65742C777AB /* Pods-MockKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MockKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MockKit/Pods-MockKit.release.xcconfig"; sourceTree = "<group>"; };
+		E4F961770FCF5C58D9A7AA5A /* Pods_AutoMockable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AutoMockable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0D2587ED0485194326C522B /* Pods-AutoMockable.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutoMockable.release.xcconfig"; path = "Pods/Target Support Files/Pods-AutoMockable/Pods-AutoMockable.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91A156A4B46E0A32E8A0C674 /* Pods_MockKit.framework in Frameworks */,
+				39557A086793A2AD26EA1405 /* Pods_AutoMockable.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +95,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D14828520FE356000581FA9 /* AutoMockable.framework in Frameworks */,
-				CD5848F5ECB4F3B83980719A /* Pods_MockKitTests.framework in Frameworks */,
+				70A6547D7EB41D6C694A3E32 /* Pods_AutoMockableTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,8 +127,7 @@
 			children = (
 				4D486657211330D8001B9865 /* Resources */,
 				4D48664821132ECC001B9865 /* Source */,
-				4DDE4B73210AFC1C00F135AE /* Sourcery */,
-				4D4866942114390B001B9865 /* ReturnValueStream.swift */,
+				4DDE4B70210AF9C300F135AE /* Templates */,
 			);
 			path = AutoMockable;
 			sourceTree = "<group>";
@@ -134,6 +135,7 @@
 		4D14828820FE356000581FA9 /* AutoMockableTests */ = {
 			isa = PBXGroup;
 			children = (
+				4DDE4B6E210AF9A800F135AE /* automockable.yml */,
 				4D48665521133007001B9865 /* TestValues.swift */,
 				4DDE4B6B210AF85E00F135AE /* Codegen */,
 				4D14828920FE356000581FA9 /* MockKitTests.swift */,
@@ -164,6 +166,7 @@
 				4D48665121132FA3001B9865 /* PropertyStub.swift */,
 				4D06F1452101B87B00379515 /* ArgMatcher.swift */,
 				4DDE4B7B210B2BC800F135AE /* DefaultInitializable.swift */,
+				4D4866942114390B001B9865 /* ReturnValueStream.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -204,22 +207,13 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
-		4DDE4B73210AFC1C00F135AE /* Sourcery */ = {
-			isa = PBXGroup;
-			children = (
-				4DDE4B6E210AF9A800F135AE /* .sourcery.yml */,
-				4DDE4B70210AF9C300F135AE /* Templates */,
-			);
-			path = Sourcery;
-			sourceTree = "<group>";
-		};
 		AD61C69587CA1C2C0F0313BC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2D5B49A19F8E27CA846037E7 /* Pods-MockKit.debug.xcconfig */,
-				BEFDD0F253BFF65742C777AB /* Pods-MockKit.release.xcconfig */,
-				BAB7FC7FA784241B2A748618 /* Pods-MockKitTests.debug.xcconfig */,
-				B32A389E20E037E7996BEC92 /* Pods-MockKitTests.release.xcconfig */,
+				3575001FDD52477F2C29C840 /* Pods-AutoMockable.debug.xcconfig */,
+				F0D2587ED0485194326C522B /* Pods-AutoMockable.release.xcconfig */,
+				6C399FC60788A66A0BF299A7 /* Pods-AutoMockableTests.debug.xcconfig */,
+				945B37C4D301DC1E49DCFD5E /* Pods-AutoMockableTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -230,6 +224,8 @@
 				4D4866352112F705001B9865 /* XCTest.framework */,
 				AED3EED1E4CAE49E78A18911 /* Pods_MockKit.framework */,
 				2912D2F62F76E45CDD7CED77 /* Pods_MockKitTests.framework */,
+				E4F961770FCF5C58D9A7AA5A /* Pods_AutoMockable.framework */,
+				00D0EC70B316AC670BBCBBAB /* Pods_AutoMockableTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -271,7 +267,7 @@
 			buildConfigurationList = 4D14829220FE356000581FA9 /* Build configuration list for PBXNativeTarget "AutoMockableTests" */;
 			buildPhases = (
 				D6E691367022A33A4024E065 /* [CP] Check Pods Manifest.lock */,
-				4DDE4B72210AFA0D00F135AE /* Sourcery */,
+				4DDE4B72210AFA0D00F135AE /* Mocks generation */,
 				4D14828020FE356000581FA9 /* Sources */,
 				4D14828120FE356000581FA9 /* Frameworks */,
 				4D14828220FE356000581FA9 /* Resources */,
@@ -341,7 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DDE4B6D210AF88400F135AE /* Mockable.swifttemplate in Resources */,
-				4DDE4B6F210AF9A800F135AE /* .sourcery.yml in Resources */,
+				4DDE4B6F210AF9A800F135AE /* automockable.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,26 +355,26 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MockKit-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AutoMockable-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4DDE4B72210AFA0D00F135AE /* Sourcery */ = {
+		4DDE4B72210AFA0D00F135AE /* Mocks generation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = Sourcery;
+			name = "Mocks generation";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Pods/Sourcery/bin/sourcery --config ./AutoMockable/Sourcery/.sourcery.yml";
+			shellScript = "./Pods/Sourcery/bin/sourcery --config automockable.yml";
 		};
 		D6E691367022A33A4024E065 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -391,7 +387,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MockKitTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AutoMockableTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -565,7 +561,7 @@
 		};
 		4D14829020FE356000581FA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D5B49A19F8E27CA846037E7 /* Pods-MockKit.debug.xcconfig */;
+			baseConfigurationReference = 3575001FDD52477F2C29C840 /* Pods-AutoMockable.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -594,7 +590,7 @@
 		};
 		4D14829120FE356000581FA9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEFDD0F253BFF65742C777AB /* Pods-MockKit.release.xcconfig */;
+			baseConfigurationReference = F0D2587ED0485194326C522B /* Pods-AutoMockable.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -622,7 +618,7 @@
 		};
 		4D14829320FE356000581FA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAB7FC7FA784241B2A748618 /* Pods-MockKitTests.debug.xcconfig */;
+			baseConfigurationReference = 6C399FC60788A66A0BF299A7 /* Pods-AutoMockableTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -642,7 +638,7 @@
 		};
 		4D14829420FE356000581FA9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B32A389E20E037E7996BEC92 /* Pods-MockKitTests.release.xcconfig */;
+			baseConfigurationReference = 945B37C4D301DC1E49DCFD5E /* Pods-AutoMockableTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

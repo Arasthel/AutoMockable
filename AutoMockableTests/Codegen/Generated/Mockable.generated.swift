@@ -3,6 +3,9 @@
 
 import AutoMockable
 
+// Module imports
+import UIKit
+
 
 
 

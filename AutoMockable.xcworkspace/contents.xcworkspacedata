@@ -5,6 +5,12 @@
       location = "group:/Users/arasthel/XcodeProjects/MockKit/AutoMockable.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:AutoMockableTests/../automockable.yml">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:AutoMockable.xcodeproj">
    </FileRef>
 </Workspace>

@@ -62,7 +62,7 @@ public struct ValueMatcher<T: Equatable>: ArgMatcher {
     
 }
 /// Syntactic sugar to create a `ValueMatcher` with the supplied value.
-public func theValue<T>(_ value: T) -> ValueMatcher<T> {
+public func `is`<T>(_ value: T) -> ValueMatcher<T> {
     return ValueMatcher<T>(valueToMatch: value)
 }
 

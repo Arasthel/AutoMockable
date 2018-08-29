@@ -9,8 +9,8 @@
 import Foundation
 @testable import AutoMockable
 
-/// sourcery:mockable
+/// sourcery: AutoMockable
 extension TestClass {}
 
-/// sourcery:mockable
+/// sourcery: AutoMockable
 extension TestProtocol {}

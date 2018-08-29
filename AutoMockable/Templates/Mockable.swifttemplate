@@ -1,5 +1,23 @@
 import AutoMockable
 
+<%_
+// Add imports
+if let imports = arguments["import"] as? [String] {
+    print("// Module imports")
+    for arg in imports {
+        print("import \(arg)")
+    }
+}
+
+// Add testable imports
+if let imports = arguments["testable"] as? [String] {
+    print("// Testable Modules imports")
+    for arg in imports {
+        print("@testable import \(arg)")
+    }
+}
+-%>
+
 <%- include("Utils.swifttemplate") -%>
 <%- include("GenerateCallHandlerForType") -%>
 <%- include("GenerateMockedType.swifttemplate") -%>
@@ -8,12 +26,12 @@ import AutoMockable
 /// Mockable.swifttemplate
 
 var mockableProtocols = [Type]()
-for type in types.protocols where type.annotations["mockable"] != nil {
+for type in types.protocols where type.annotations["AutoMockable"] != nil {
     mockableProtocols.append(type)
 }
 
 var mockableClasses = [Type]()
-for type in types.classes where type.annotations["mockable"] != nil {
+for type in types.classes where type.annotations["AutoMockable"] != nil {
     let accessLevel = type.accessLevel
     print(
     """

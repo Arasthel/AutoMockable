@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_MockKitVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_MockKitVersionString[];
+FOUNDATION_EXPORT double Pods_AutoMockableVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_AutoMockableVersionString[];
 
